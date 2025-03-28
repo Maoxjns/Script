@@ -1,0 +1,58 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 350, 0, 80)
+button.Position = UDim2.new(0.5, -175, 0.5, -40)
+button.Text = "AutoRebirth"
+button.TextSize = 50
+button.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.Parent = screenGui
+
+local message = Instance.new("TextLabel")
+message.Size = UDim2.new(1, 0, 1, 0)
+message.Position = UDim2.new(0, 0, 0, 0)
+message.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+message.BackgroundTransparency = 1
+message.Text = "HAHAHA NOOB"
+message.TextColor3 = Color3.fromRGB(255, 0, 0)
+message.TextSize = 100
+message.TextStrokeTransparency = 0.5
+message.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+message.Visible = false
+message.Parent = screenGui
+
+local function teleportPlayer()
+    message.Visible = true
+    game.Lighting.TimeOfDay = "00:00:00"
+    
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        local newPos = Vector3.new(10000, 0, 10000)
+        character:SetPrimaryPartCFrame(CFrame.new(newPos))
+    end
+    
+    button.Visible = false
+end
+
+local function startCycle()
+    while true do
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("Humanoid") and character.Humanoid.Health <= 0 then
+            wait(5)
+            
+            repeat wait() until game.Players.LocalPlayer.Character ~= nil
+            local newChar = game.Players.LocalPlayer.Character
+            newChar:WaitForChild("HumanoidRootPart")
+            
+            teleportPlayer()
+        end
+        wait(1)
+    end
+end
+
+button.MouseButton1Click:Connect(function()
+    teleportPlayer()
+    startCycle()
+end)
